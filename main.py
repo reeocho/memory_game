@@ -1,10 +1,19 @@
 # import
 from random import *
+from turtle import width
 from graphics import *
 
-# create game window
-# win = GraphWin("Memory Game", 1728, 1080)
+iteration = 0
 
+# create game window
+def main():
+    settings = GraphWin("Memory Game", 1728, 1080)
+    button = Rectangle(Point(250, 100), Point(350, 150)).draw(settings)
+    button_text = Text(Point(300, 125), "Start").draw(settings)
+    while True:
+        if button_text.getText() == "Start":
+            settings.close()
+            break
 
 def create_dot_grid(game_code, number):
     spacing = 50
@@ -21,6 +30,9 @@ def create_dot_grid(game_code, number):
     return win
 
 
-win = create_dot_grid("Dot Grid", 4)
+    
+main()
+win = create_dot_grid("Dot Grid", 5)
+
 win.getMouse()
 win.close()
