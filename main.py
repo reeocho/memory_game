@@ -26,11 +26,10 @@ def create_dot_grid(game_code, number):
 
     for i, x in enumerate(range(spacing, width, spacing)):
         for j, y in enumerate(range(spacing, width, spacing)):
-            dot = Circle(Point(x, y), 2)
-            dot.draw(win)
-            
-            # Unique ID based on grid position (e.g., "0-0", "0-1")
             grid_id = f"{i}-{j}"
+            globals()['var%s' % grid_id] = Circle(Point(x, y), 2)
+            globals()['var%s' % grid_id].draw(win)
+            
             dots.append(grid_id)
             
     return win, dots
