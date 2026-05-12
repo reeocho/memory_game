@@ -1,7 +1,7 @@
 # import
 from random import *
-from turtle import width
 from graphics import *
+from time import *
 
 iteration = 0
 
@@ -17,22 +17,28 @@ def main():
 
 def create_dot_grid(game_code, number):
     spacing = 50
-    width = 50 * number
+    width = 50 * (number+1)
     win = GraphWin(game_code, width, width)
+    
+    # Dictionary to store dots
+    dots = []
+    dot_id = 0
 
-    dot_radius = 1
-
-    for x in range(spacing, width, spacing):
-        for y in range(spacing, width, spacing):
-            dot = Circle(Point(x, y), dot_radius)
-            dot.setFill("black")
+    for i, x in enumerate(range(spacing, width, spacing)):
+        for j, y in enumerate(range(spacing, width, spacing)):
+            dot = Circle(Point(x, y), 2)
             dot.draw(win)
-    return win
+            
+            # Unique ID based on grid position (e.g., "0-0", "0-1")
+            grid_id = f"{i}-{j}"
+            dots.append(grid_id)
+            
+    return win, dots
 
 
     
 main()
-win = create_dot_grid("Dot Grid", 5)
-
+win, dots = create_dot_grid("Dot Grid", 5)
+print(dots)
 win.getMouse()
 win.close()
