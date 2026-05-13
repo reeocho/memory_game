@@ -47,12 +47,38 @@ def create_dot_grid(game_code, number):
             
     return win, dots
 
+def colourchangeplayer(dotprev, dotnew, player):
+    if player == True:
+        colour = "green"
+    else:
+        colour = "red"
+    dotprev.undraw()
+    dotprev.setFill("white")
+    dotprev.draw(win)
+    dotnew.undraw()
+    dotnew.setFill(colour)
+    dotnew.draw(win)
+    return
 
+def nextdot():
+    pass
 
 main()
 
 
-
 win, dots = create_dot_grid("Dot Grid", 5)
+dots[0].undraw()
+dots[0].setFill("green")
+dots[0].draw(win)
+print(dots)
+dot = dots[0]
+while True:
+    key = win.checkKey()
+    if key == "q":
+        break
+    elif key in ["Right", "Left", "Up", "Down"]:
+        dotnew = nextdot(dot, key)
+        dot = dotnew
+        colourchangeplayer(dot, dotnew, True)  # Assuming player 1 is moving
 win.getMouse()
 win.close()
