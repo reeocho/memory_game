@@ -15,7 +15,8 @@ def text_create(text, settings):
 
 def main():
     settings = GraphWin("Memory Game", 500, 300)
-    e = Entry(Point(250, 150), 50)
+    e = Entry(Point(250, 150), 30)
+    e.setText("Username")
     e.draw(settings)
     button = Rectangle(Point(200, 200), Point(300, 250))
     button.label = Text(Point(250, 225), "Start")
@@ -60,9 +61,39 @@ def colourchangeplayer(dotprev, dotnew, player):
     dotnew.draw(win)
     return
 
-def nextdot():
-    pass
+def error(errormessage):
+    error = Text(Point(150, 150), errormessage)
+    error.setTextColor("red")
+    error.draw(win)
+    sleep(1)
+    error.undraw()
 
+def nextdot(dot, key):
+    index = dots.index(dot)
+    if key == "Right":
+        if index < len(dots) - 5:
+            return dots[index + 5]
+        else:
+            error("You can't move right!")
+            return dot
+    elif key == "Left":
+        if index >= 5:
+            return dots[index - 5]
+        else:
+            error("You can't move left!")
+            return dot
+    elif key == "Up":
+        if index % 5 != 0:
+            return dots[index - 1]
+        else:
+            error("You can't move up!")
+            return dot
+    elif key == "Down":
+        if index % 5 != 4:
+            return dots[index + 1]
+        else:
+            error("You can't move down!")
+            return dot
 main()
 
 
@@ -78,7 +109,7 @@ while True:
         break
     elif key in ["Right", "Left", "Up", "Down"]:
         dotnew = nextdot(dot, key)
+        colourchangeplayer(dot, dotnew, True)
         dot = dotnew
-        colourchangeplayer(dot, dotnew, True)  # Assuming player 1 is moving
 win.getMouse()
 win.close()
