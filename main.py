@@ -4,6 +4,7 @@ from graphics import *
 from time import *
 
 iteration = 0
+dotnumber = 5
 
 def text_create(text, settings):
     texttodraw = Text(Point(200, 50), text)
@@ -22,14 +23,15 @@ def main():
     button.label = Text(Point(250, 225), "Start")
     button.label.draw(settings)
     button.draw(settings)
+    name = e.getText()
     while True:
-        text = e.getText()
         if button.getP1().getX() < settings.getMouse().getX() < button.getP2().getX() and \
            button.getP1().getY() < settings.getMouse().getY() < button.getP2().getY():
             settings.close()
             break
         else:
-            text_create("Type 'start' to begin the game!", settings)
+            text_create("Press button to begin", settings)
+    return name
 
 def create_dot_grid(game_code, number):
     spacing = 50
@@ -38,7 +40,6 @@ def create_dot_grid(game_code, number):
     
     # Dictionary to store dots
     dots = []
-    dot_id = 0
 
     for i, x in enumerate(range(spacing, width, spacing)):
         for j, y in enumerate(range(spacing, width, spacing)):
@@ -68,47 +69,81 @@ def error(errormessage):
     sleep(1)
     error.undraw()
 
-def nextdot(dot, key):
+def createmaze(n):
+    current = randint(0, n-1)
+    maze = [current]
+    endpoint = randint(n*n - n, n*n - 1)
+    print(current, endpoint)
+    while True:
+        current = maze[-1]
+        possible = []
+        if current > n*n - n:
+            if current == endpoint:
+                print(maze)
+                break
+            if current < endpoint:
+                maze.append(current + 1)
+            if current > endpoint:
+                maze.append(current - 1)
+        else:
+            if current % n != n-1:
+                possible.append(1)
+            if current % n != 0:
+                possible.append(-1)
+            if current + n <= n * n -1:
+                possible.append(n)
+            if not possible:
+                raise IndexError("Oops something went wrong :(")
+            added = maze[-1] + possible[randint(0, len(possible) - 1)]
+            if added in maze:
+                pass
+            else:
+                maze.append(added)
+    return maze
+
+def nextdot(dot, key, n):
     index = dots.index(dot)
     if key == "Right":
-        if index < len(dots) - 5:
-            return dots[index + 5]
+        if index < len(dots) - n:
+            return dots[index + n]
         else:
-            error("You can't move right!")
+            error("You can't move right")
             return dot
     elif key == "Left":
-        if index >= 5:
-            return dots[index - 5]
+        if index >= n:
+            return dots[index - n]
         else:
-            error("You can't move left!")
+            error("You can't move left")
             return dot
     elif key == "Up":
-        if index % 5 != 0:
+        if index % n != 0:
             return dots[index - 1]
         else:
-            error("You can't move up!")
+            error("You can't move up")
             return dot
     elif key == "Down":
-        if index % 5 != 4:
+        if index % n != n - 1:
             return dots[index + 1]
         else:
-            error("You can't move down!")
+            error("You can't move down")
             return dot
-main()
 
+name = main()
+maze = createmaze(3)
 
 win, dots = create_dot_grid("Dot Grid", 5)
 dots[0].undraw()
 dots[0].setFill("green")
 dots[0].draw(win)
-print(dots)
 dot = dots[0]
 while True:
     key = win.checkKey()
     if key == "q":
         break
+    if key == "h":
+        pass
     elif key in ["Right", "Left", "Up", "Down"]:
-        dotnew = nextdot(dot, key)
+        dotnew = nextdot(dot, key, dotnumber)
         colourchangeplayer(dot, dotnew, True)
         dot = dotnew
 win.getMouse()
