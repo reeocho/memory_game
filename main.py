@@ -3,9 +3,6 @@ from random import *
 from graphics import *
 from time import *
 
-iteration = 0
-dotnumber = 5
-
 def text_create(text, settings):
     texttodraw = Text(Point(200, 50), text)
     texttodraw.setTextColor("red")
@@ -13,6 +10,33 @@ def text_create(text, settings):
     sleep(5)
     texttodraw.undraw()
 
+def hint_screen():
+    # allows user to show one block at a time
+    pass
+
+def check_location():
+    # if it is next in the maze return true otherwise return false
+    pass
+
+def first_animation(maze):
+    dots[maze[0]].undraw()
+    dots[maze[0]].setFill("green")
+    dots[maze[0]].draw(win)
+    for x in range(1, len(maze)):
+        sleep(0.5)
+        dot = dots[maze[x-1]]
+        dotnew = dots[maze[x]]
+        dot.undraw()
+        dot.setFill("white")
+        dot.draw(win)
+        dotnew.undraw()
+        dotnew.setFill("green")
+        dotnew.draw(win)
+    sleep(0.5)
+    dotnew.undraw()
+    dotnew.setFill("white")
+    dotnew.draw(win)
+    return
 
 def main():
     settings = GraphWin("Memory Game", 500, 300)
@@ -46,7 +70,7 @@ def create_dot_grid(game_code, number):
             circle = Circle(Point(x, y), 5)
             circle.draw(win)
             dots.append(circle)
-            
+    
     return win, dots
 
 def colourchangeplayer(dotprev, dotnew, player):
@@ -128,10 +152,16 @@ def nextdot(dot, key, n):
             error("You can't move down")
             return dot
 
-name = main()
-maze = createmaze(3)
+def success_screen():
+    # closes maze tab and shows message
+    pass
 
-win, dots = create_dot_grid("Dot Grid", 5)
+number = 5
+name = main()
+maze = createmaze(number)
+
+win, dots = create_dot_grid("Dot Grid", number)
+first_animation(maze)
 dots[0].undraw()
 dots[0].setFill("green")
 dots[0].draw(win)
@@ -141,9 +171,13 @@ while True:
     if key == "q":
         break
     if key == "h":
+        #pop up hint screen most likely
+        pass
+    if key == "m":
+        # check location correct?
         pass
     elif key in ["Right", "Left", "Up", "Down"]:
-        dotnew = nextdot(dot, key, dotnumber)
+        dotnew = nextdot(dot, key, number)
         colourchangeplayer(dot, dotnew, True)
         dot = dotnew
 win.getMouse()
