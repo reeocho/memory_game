@@ -3,16 +3,14 @@ from random import *
 from graphics import *
 from time import *
 
+competitive = True
+
 def text_create(text, settings):
     texttodraw = Text(Point(200, 50), text)
     texttodraw.setTextColor("red")
     texttodraw.draw(settings)
     sleep(5)
     texttodraw.undraw()
-
-def hint_screen():
-    # allows user to show one block at a time
-    pass
 
 def check_location():
     # if it is next in the maze return true otherwise return false
@@ -153,7 +151,7 @@ def nextdot(dot, key, n):
             return dot
 
 def success_screen():
-    # closes maze tab and shows message
+    Rectangle(Point(0,0), Point(win.getWidth(), win.getHeight())).draw(win)
     pass
 
 number = 5
@@ -171,8 +169,8 @@ while True:
     if key == "q":
         break
     if key == "h":
-        #pop up hint screen most likely
-        pass
+        if not competitive:
+            hint_screen()
     if key == "m":
         # check location correct?
         pass
