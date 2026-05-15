@@ -12,9 +12,11 @@ def text_create(text, settings):
     sleep(5)
     texttodraw.undraw()
 
-def check_location():
-    # if it is next in the maze return true otherwise return false
-    pass
+def check_location(maze, dot, iteration):
+    if dots.index(dot) == maze[iteration]:
+        return True
+    else:
+        return False
 
 def first_animation(maze):
     dots[maze[0]].undraw()
@@ -59,8 +61,6 @@ def create_dot_grid(game_code, number):
     spacing = 50
     width = 50 * (number+1)
     win = GraphWin(game_code, width, width)
-    
-    # Dictionary to store dots
     dots = []
 
     for i, x in enumerate(range(spacing, width, spacing)):
@@ -150,11 +150,17 @@ def nextdot(dot, key, n):
             error("You can't move down")
             return dot
 
-def success_screen():
-    Rectangle(Point(0,0), Point(win.getWidth(), win.getHeight())).draw(win)
+def success_screen(time):
+    background = Rectangle(Point(0,0), Point(win.getWidth(), win.getHeight())).draw(win)
+    background.setFill("white")
+    text = Text(Point(win.getWidth()/2, win.getHeight()/2), "Win!")
+    text.draw(win)
+    text_time = Text(Point(win.getWidth()/2, win.getHeight()/2 + 30), f"Time: {time:.2f} seconds")
+    text_time.draw(win)
     pass
 
 number = 5
+iteration = 0
 name = main()
 maze = createmaze(number)
 
@@ -167,16 +173,25 @@ dot = dots[0]
 while True:
     key = win.checkKey()
     if key == "q":
+        win.getMouse()
+        win.close()
         break
     if key == "h":
         if not competitive:
-            hint_screen()
+            # hint_screen()
+            pass
     if key == "m":
-        # check location correct?
-        pass
+        if check_location(maze, dot, iteration):
+            iteration += 1
+            print(iteration)
+        if not check_location(maze, dot, iteration) and not competitive:
+            print("Wrong dot, try again!")
+        else:
+            text_create("You failed", win)
+            sleep(0.5)
+            break
+        print(dot)
     elif key in ["Right", "Left", "Up", "Down"]:
         dotnew = nextdot(dot, key, number)
         colourchangeplayer(dot, dotnew, True)
         dot = dotnew
-win.getMouse()
-win.close()
