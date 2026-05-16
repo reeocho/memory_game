@@ -51,6 +51,7 @@ def main():
     difficulty3.label = Text(Point(350, 75), "Hard")
     difficulty3.label.draw(settings)
     difficulty3.draw(settings)
+
     e = Entry(Point(250, 150), 30)
     e.setText("Username")
     e.draw(settings)
@@ -60,13 +61,22 @@ def main():
     button.draw(settings)
     name = e.getText()
     while True:
+        if difficulty1.getP1().getX() < settings.getMouse().getX() < difficulty1.getP2().getX() and \
+           difficulty1.getP1().getY() < settings.getMouse().getY() < difficulty1.getP2().getY():
+            number = 3
+        if difficulty2.getP1().getX() < settings.getMouse().getX() < difficulty2.getP2().getX() and \
+           difficulty2.getP1().getY() < settings.getMouse().getY() < difficulty2.getP2().getY():
+            number = 5
+        if difficulty3.getP1().getX() < settings.getMouse().getX() < difficulty3.getP2().getX() and \
+           difficulty3.getP1().getY() < settings.getMouse().getY() < difficulty3.getP2().getY():
+            number = 7
         if button.getP1().getX() < settings.getMouse().getX() < button.getP2().getX() and \
-           button.getP1().getY() < settings.getMouse().getY() < button.getP2().getY():
+           button.getP1().getY() < settings.getMouse().getY() < button.getP2().getY() and number is not None:
             settings.close()
             break
         else:
-            text_create("Press Start or Choose Difficulty", settings)
-    return name
+            text_create("Choose Difficulty and Press Start", settings)
+    return name, number
 
 def create_dot_grid(game_code, number):
     spacing = 50
@@ -177,9 +187,8 @@ def failscreen():
     text.draw(win)
     pass
 
-number = 5
 iteration = 0
-name = main()
+name, number = main()
 maze = createmaze(number)
 
 win, dots = create_dot_grid("Dot Grid", number)
