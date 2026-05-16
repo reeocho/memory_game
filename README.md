@@ -12,5 +12,8 @@ Some challenges or problems I faced when creating the game:
 
 ## How to play
 - Select settings on the main page. Currently changeable settings include:
-    - 
+    - difficulty
+    username
 - When the game starts, the correct path is shown on the screen, one dot at a time.
+- move player to each previously displayed space in order
+- press m to confirm
