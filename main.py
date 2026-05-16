@@ -55,27 +55,25 @@ def main():
     e = Entry(Point(250, 150), 30)
     e.setText("Username")
     e.draw(settings)
-    button = Rectangle(Point(200, 200), Point(300, 250))
-    button.label = Text(Point(250, 225), "Start")
-    button.label.draw(settings)
-    button.draw(settings)
     name = e.getText()
     while True:
         if difficulty1.getP1().getX() < settings.getMouse().getX() < difficulty1.getP2().getX() and \
            difficulty1.getP1().getY() < settings.getMouse().getY() < difficulty1.getP2().getY():
             number = 3
+            settings.close()
+            break
         if difficulty2.getP1().getX() < settings.getMouse().getX() < difficulty2.getP2().getX() and \
            difficulty2.getP1().getY() < settings.getMouse().getY() < difficulty2.getP2().getY():
             number = 5
+            settings.close()
+            break
         if difficulty3.getP1().getX() < settings.getMouse().getX() < difficulty3.getP2().getX() and \
            difficulty3.getP1().getY() < settings.getMouse().getY() < difficulty3.getP2().getY():
             number = 7
-        if button.getP1().getX() < settings.getMouse().getX() < button.getP2().getX() and \
-           button.getP1().getY() < settings.getMouse().getY() < button.getP2().getY() and number is not None:
             settings.close()
             break
         else:
-            text_create("Choose Difficulty and Press Start", settings)
+            text_create("Choose Difficulty", settings)
     return name, number
 
 def create_dot_grid(game_code, number):
