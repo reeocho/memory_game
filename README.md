@@ -1,6 +1,8 @@
 # Memory Game
 In this project I wanted to make a memory game (originally began as trying to make a wordle/hangman-esque logic game and wordle reverse solver in one - using the correct letter/placements predetermined "guesses" given to the player to solve - but progressed to a more visual memory game) that has a similar format and play style to snake. To achieve this I used the graphics py library to more efficiently create a game window.
 
+_Please run this on VS Code as it does not work on web_
+
 ## Process
 - Experimented using a webpage for the game in the beginning, but ultimately decided on using python (and the graphics.py library)
 - Originally https://github.com/reeocho/wordle-solver
