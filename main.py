@@ -3,7 +3,6 @@ from random import *
 from graphics import *
 from time import *
 
-competitive = True
 
 def text_create(text, settings):
     texttodraw = Text(Point(200, 50), text)
@@ -40,6 +39,18 @@ def first_animation(maze):
 
 def main():
     settings = GraphWin("Memory Game", 500, 300)
+    difficulty1 = Rectangle(Point(110, 50), Point(185, 100))
+    difficulty1.label = Text(Point(150, 75), "Easy")
+    difficulty1.label.draw(settings)
+    difficulty1.draw(settings)
+    difficulty2 = Rectangle(Point(210, 50), Point(285, 100))
+    difficulty2.label = Text(Point(250, 75), "Medium")
+    difficulty2.label.draw(settings)
+    difficulty2.draw(settings)
+    difficulty3 = Rectangle(Point(310, 50), Point(385, 100))
+    difficulty3.label = Text(Point(350, 75), "Hard")
+    difficulty3.label.draw(settings)
+    difficulty3.draw(settings)
     e = Entry(Point(250, 150), 30)
     e.setText("Username")
     e.draw(settings)
@@ -54,7 +65,7 @@ def main():
             settings.close()
             break
         else:
-            text_create("Press button to begin", settings)
+            text_create("Press Start or Choose Difficulty", settings)
     return name
 
 def create_dot_grid(game_code, number):
@@ -159,6 +170,13 @@ def success_screen(time):
     text_time.draw(win)
     pass
 
+def failscreen():
+    background = Rectangle(Point(0,0), Point(win.getWidth(), win.getHeight())).draw(win)
+    background.setFill("white")
+    text = Text(Point(win.getWidth()/2, win.getHeight()/2), "Fail!")
+    text.draw(win)
+    pass
+
 number = 5
 iteration = 0
 name = main()
@@ -170,28 +188,27 @@ dots[0].undraw()
 dots[0].setFill("green")
 dots[0].draw(win)
 dot = dots[0]
+starttime = time()
 while True:
     key = win.checkKey()
+    if iteration == len(maze):
+        success_screen(time()-starttime)
+        break
     if key == "q":
         win.getMouse()
         win.close()
         break
-    if key == "h":
-        if not competitive:
-            # hint_screen()
-            pass
     if key == "m":
         if check_location(maze, dot, iteration):
             iteration += 1
             print(iteration)
-        if not check_location(maze, dot, iteration) and not competitive:
-            print("Wrong dot, try again!")
         else:
-            text_create("You failed", win)
-            sleep(0.5)
-            break
+            failscreen()
         print(dot)
     elif key in ["Right", "Left", "Up", "Down"]:
         dotnew = nextdot(dot, key, number)
         colourchangeplayer(dot, dotnew, True)
         dot = dotnew
+
+win.getMouse()
+win.close()
